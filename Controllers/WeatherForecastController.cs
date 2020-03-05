@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Toggled.Client;
 
 namespace aspnettest.Controllers
 {
@@ -17,12 +17,12 @@ namespace aspnettest.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IToggledSingleton _toggledSingleton;
+        private readonly IToggledClient _toggledClient;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IToggledSingleton toggledSingleton)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IToggledClient toggledClient)
         {
             _logger = logger;
-            _toggledSingleton = toggledSingleton;
+            _toggledClient = toggledClient;
         }
 
         [HttpGet]
@@ -34,7 +34,7 @@ namespace aspnettest.Controllers
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)],
-                FeatureToggle = _toggledSingleton.GetFeatureValue()
+                FeatureToggle = _toggledClient.GetFeatureValue("featureToggleName")
             })
             .ToArray();
         }
