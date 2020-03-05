@@ -18,8 +18,15 @@ namespace aspnettest
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddSingleton<IToggledClient, ToggledClient>();
+        {            
+            services.AddSingleton<IToggledClient, ToggledClient>(serviceProvider=>
+            {
+                return new ToggledClient(
+                    Configuration["Toggled:ConnectionString"], 
+                    Configuration["Toggled:HubName"], 
+                    Configuration["Toggled:ClientName"]
+                );
+            });
             services.AddControllers();
         }
 
