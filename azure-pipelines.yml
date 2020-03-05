@@ -13,8 +13,13 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: NuGetAuthenticate@0
-- script: dotnet restore --no-cache --force
-  displayName: 'dotnet restore'
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+    vstsFeed: '4495e1a4-9944-44b0-87b6-7fe49533461a/3bc0b4bb-c66b-4247-a614-827165b06c64'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: 'aspnettest.csproj'
