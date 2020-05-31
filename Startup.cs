@@ -48,10 +48,6 @@ namespace aspnettest
             {
                 endpoints.MapControllers();
             });
-
-
-
-
         }
     }
 }
